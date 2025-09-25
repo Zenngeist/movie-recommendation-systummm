@@ -7,7 +7,7 @@ import nltk
 from nltk.corpus import stopwords
 import requests
 import time
-
+nltk.download('stopwords')
 def fetch_poster(movie_id):
     api_key = "66357c6b8b9e5449a6ed31861ece47ed"
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US"
