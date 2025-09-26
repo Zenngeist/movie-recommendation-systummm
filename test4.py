@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import ast
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import nltk
 from nltk.corpus import stopwords
@@ -78,13 +78,15 @@ def load_and_process_data():
         [word for word in x.split() if word not in stop_words_nltk]
     ))
     
-    cv = CountVectorizer(max_features=10000, stop_words='english')
-    vectors = cv.fit_transform(new_df['tags']).toarray()
+    tfidf = TfidfVectorizer(max_features=10000, stop_words='english')
+    vectors = tfidf.fit_transform(new_df['tags']) # Note: .toarray() is removed for better performance
+    
     similarity_matrix = cosine_similarity(vectors)
     
     return new_df, similarity_matrix
 
 movies, similarity = load_and_process_data()
+
 
 def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]
